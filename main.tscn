@@ -1,0 +1,102 @@
+[gd_scene load_steps=14 format=4 uid="uid://bsmuow57nvowu"]
+
+[ext_resource type="Script" uid="uid://ctidwf6twxl2y" path="res://main.gd" id="1_0xm2m"]
+[ext_resource type="Texture2D" uid="uid://cfbi4gn38npid" path="res://debug.png" id="2_h2yge"]
+[ext_resource type="Shader" uid="uid://b1r5a0gougur0" path="res://fov.gdshader" id="3_h2yge"]
+[ext_resource type="Script" uid="uid://bldxkyh6wwpq4" path="res://sprite_2d.gd" id="4_1bvp3"]
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_1bvp3"]
+texture = ExtResource("2_h2yge")
+1:0/0 = 0
+2:0/0 = 0
+3:0/0 = 0
+4:0/0 = 0
+5:0/0 = 0
+6:0/0 = 0
+7:0/0 = 0
+8:0/0 = 0
+9:0/0 = 0
+11:0/0 = 0
+13:0/0 = 0
+15:0/0 = 0
+0:0/0 = 0
+10:0/0 = 0
+
+[sub_resource type="TileSet" id="TileSet_lquwl"]
+sources/0 = SubResource("TileSetAtlasSource_1bvp3")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_1bvp3"]
+shader = ExtResource("3_h2yge")
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_h2yge"]
+viewport_path = NodePath("SubViewport")
+
+[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_h2yge"]
+polygon = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_7mycd"]
+texture = ExtResource("2_h2yge")
+1:0/0 = 0
+1:0/0/occlusion_layer_0/polygon_0/polygon = SubResource("OccluderPolygon2D_h2yge")
+2:0/0 = 0
+3:0/0 = 0
+4:0/0 = 0
+5:0/0 = 0
+6:0/0 = 0
+7:0/0 = 0
+8:0/0 = 0
+9:0/0 = 0
+11:0/0 = 0
+13:0/0 = 0
+15:0/0 = 0
+0:0/0 = 0
+10:0/0 = 0
+
+[sub_resource type="TileSet" id="TileSet_272bh"]
+occlusion_layer_0/light_mask = 1
+sources/0 = SubResource("TileSetAtlasSource_7mycd")
+
+[sub_resource type="Gradient" id="Gradient_5vw27"]
+interpolation_mode = 1
+colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_kek77"]
+gradient = SubResource("Gradient_5vw27")
+width = 512
+height = 512
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(1, 0.5)
+
+[node name="Main" type="Node2D"]
+script = ExtResource("1_0xm2m")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(307.85, 172.465)
+zoom = Vector2(1.5, 1.5)
+
+[node name="TileMapLayer" type="TileMapLayer" parent="."]
+scale = Vector2(2, 2)
+tile_map_data = PackedByteArray("AAACAAEAAAADAAAAAAADAAEAAAADAAAAAAAEAAEAAAADAAAAAAAEAAIAAAAKAAAAAAAFAAIAAAAKAAAAAAAGAAIAAAAKAAAAAAAHAAIAAAAKAAAAAAAIAAIAAAAKAAAAAAAJAAIAAAAKAAAAAAAKAAIAAAAKAAAAAAALAAIAAAAKAAAAAAALAAMAAAAKAAAAAAAMAAMAAAAKAAAAAAAMAAQAAAAKAAAAAAAMAAUAAAAKAAAAAAAMAAYAAAAKAAAAAAALAAYAAAAKAAAAAAAKAAcAAAAKAAAAAAAKAAgAAAAKAAAAAAAJAAgAAAAKAAAAAAAIAAgAAAAKAAAAAAAHAAgAAAAKAAAAAAAGAAgAAAAKAAAAAAAFAAgAAAAKAAAAAAAFAAcAAAAKAAAAAAAFAAYAAAAKAAAAAAAFAAUAAAAKAAAAAAAEAAUAAAADAAAAAAADAAUAAAADAAAAAAADAAYAAAADAAAAAAACAAYAAAADAAAAAAACAAcAAAADAAAAAAACAAgAAAADAAAAAAACAAkAAAADAAAAAAADAAoAAAADAAAAAAAEAAoAAAADAAAAAAAEAAsAAAADAAAAAAAFAAsAAAADAAAAAAAGAAsAAAADAAAAAAAHAAsAAAADAAAAAAAIAAsAAAADAAAAAAAJAAwAAAADAAAAAAAKAAwAAAADAAAAAAALAAwAAAADAAAAAAALAAsAAAADAAAAAAAMAAsAAAADAAAAAAANAAsAAAADAAAAAAAOAAsAAAADAAAAAAAPAAsAAAADAAAAAAAPAAoAAAADAAAAAAAQAAoAAAAFAAAAAAAQAAkAAAAFAAAAAAAQAAgAAAAFAAAAAAAQAAcAAAAFAAAAAAAQAAYAAAAFAAAAAAAQAAUAAAAFAAAAAAAQAAQAAAAFAAAAAAAQAAMAAAAFAAAAAAAQAAIAAAAFAAAAAAAPAAEAAAAFAAAAAAAOAAAAAAAFAAAAAAANAAAAAAAFAAAAAAAMAAAAAAAFAAAAAAA=")
+tile_set = SubResource("TileSet_lquwl")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture_filter = 1
+material = SubResource("ShaderMaterial_1bvp3")
+texture = SubResource("ViewportTexture_h2yge")
+script = ExtResource("4_1bvp3")
+
+[node name="SubViewport" type="SubViewport" parent="."]
+
+[node name="TileMapLayer" type="TileMapLayer" parent="SubViewport"]
+scale = Vector2(2, 2)
+tile_set = SubResource("TileSet_272bh")
+
+[node name="PointLight2D" type="PointLight2D" parent="SubViewport"]
+shadow_enabled = true
+texture = SubResource("GradientTexture2D_kek77")
+
+[node name="CanvasModulate" type="CanvasModulate" parent="SubViewport"]
+color = Color(0, 0, 0, 1)
+
+[node name="Camera2D" type="Camera2D" parent="SubViewport"]
